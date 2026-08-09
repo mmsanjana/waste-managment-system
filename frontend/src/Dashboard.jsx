@@ -5,7 +5,7 @@ function Dashboard() {
     const navigate = useNavigate();
 
     const handleLogout = () => {
-        localStorage.removeItem('userId'); // Logout වෙද්දී මතක තියාගත්ත ID එක මකනවා
+        localStorage.removeItem('userId'); 
         navigate('/');
     };
 
@@ -23,8 +23,13 @@ function Dashboard() {
                     <h3 style={{ fontSize: '24px', fontWeight: '300', marginBottom: '10px' }}>Welcome to Your Portal</h3>
                     <p style={{ color: '#ccc', marginBottom: '40px' }}>Manage your waste pickup requests easily from here.</p>
                     
-                    <div style={{ maxWidth: '300px', margin: '0 auto' }}>
-                        <button className="btn-primary" style={{ padding: '15px', fontSize: '18px', boxShadow: '0 10px 20px rgba(39, 174, 96, 0.3)' }}>
+                    <div style={{ maxWidth: '350px', margin: '0 auto' }}>
+                        {/* මේ බොත්තම එබුවාම Create Request පිටුවට යනවා */}
+                        <button 
+                            onClick={() => navigate('/create-request')}
+                            className="btn-primary" 
+                            style={{ padding: '15px', fontSize: '18px', boxShadow: '0 10px 20px rgba(39, 174, 96, 0.3)' }}
+                        >
                             + Create New Pickup Request
                         </button>
                     </div>

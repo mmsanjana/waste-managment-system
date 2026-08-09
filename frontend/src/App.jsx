@@ -3,7 +3,8 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Login from './Login';
 import Register from './Register';
 import Dashboard from './Dashboard';
-import './App.css'; // අලුත් CSS file එක සම්බන්ධ කිරීම
+import CreateRequest from './CreateRequest'; // අලුත් පිටුව Import කළා
+import './App.css'; 
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path="/" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/create-request" element={<CreateRequest />} /> {/* අලුත් Route එක */}
         </Routes>
       </div>
     </BrowserRouter>
