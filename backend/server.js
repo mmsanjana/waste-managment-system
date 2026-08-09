@@ -38,6 +38,7 @@ app.post('/register', async (req, res) => {
     });
 });
 
+// වෙනස: Login වුණාම role එකත් යවනවා
 app.post('/login', (req, res) => {
     const { name, password } = req.body;
     const sql = "SELECT * FROM users WHERE full_name = ?";
@@ -48,7 +49,11 @@ app.post('/login', (req, res) => {
         } else if (results.length > 0) {
             const match = await bcrypt.compare(password, results[0].password_hash);
             if (match) {
-                res.json({ message: "සාර්ථකව Login වුණා!", userId: results[0].user_id });
+                res.json({ 
+                    message: "සාර්ථකව Login වුණා!", 
+                    userId: results[0].user_id,
+                    role: results[0].role // මේකෙන් තමයි Admin ද User ද හොයන්නේ
+                });
             } else {
                 res.status(401).send("Password එක වැරදියි!");
             }
@@ -82,10 +87,8 @@ app.post('/pickup-requests', (req, res) => {
     });
 });
 
-// අලුත් API එක: User ගේ ඉල්ලුම් කිරීම් ලබා ගැනීම
 app.get('/my-requests/:userId', (req, res) => {
     const userId = req.params.userId;
-    // කුණු වර්ගයේ නම ගන්න වගු දෙකක් join කරලා තියෙන්නේ
     const sql = `
         SELECT pr.*, wt.name AS waste_name 
         FROM pickup_requests pr 
@@ -96,10 +99,44 @@ app.get('/my-requests/:userId', (req, res) => {
     
     db.query(sql, [userId], (err, results) => {
         if (err) {
-            console.log(err);
             res.status(500).send("Error fetching requests");
         } else {
             res.json(results);
+        }
+    });
+});
+
+// අලුත් API එක 1: Admin ට ඔක්කොම Requests බලාගන්න (User ගේ නමත් එක්ක)
+app.get('/admin/requests', (req, res) => {
+    const sql = `
+        SELECT pr.*, wt.name AS waste_name, u.full_name AS user_name
+        FROM pickup_requests pr 
+        JOIN waste_types wt ON pr.waste_type_id = wt.waste_type_id 
+        JOIN users u ON pr.user_id = u.user_id
+        ORDER BY pr.request_id DESC
+    `;
+    
+    db.query(sql, (err, results) => {
+        if (err) {
+            console.log(err);
+            res.status(500).send("Error fetching all requests");
+        } else {
+            res.json(results);
+        }
+    });
+});
+
+// අලුත් API එක 2: Admin ට Request එකක Status එක වෙනස් කරන්න
+app.put('/admin/requests/:id/status', (req, res) => {
+    const { status } = req.body;
+    const requestId = req.params.id;
+    const sql = "UPDATE pickup_requests SET status = ? WHERE request_id = ?";
+    
+    db.query(sql, [status, requestId], (err, result) => {
+        if (err) {
+            res.status(500).send("Error updating status");
+        } else {
+            res.send("Status updated successfully!");
         }
     });
 });

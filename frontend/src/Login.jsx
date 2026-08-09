@@ -15,8 +15,18 @@ function Login() {
                 password: password
             });
             
+            // User ID එකයි Role එකයි දෙකම save කරගන්නවා
             localStorage.setItem('userId', response.data.userId);
-            navigate('/dashboard'); 
+            localStorage.setItem('role', response.data.role);
+            
+            alert(response.data.message); 
+            
+            // Admin කෙනෙක් නම් Admin Dashboard එකට යවනවා
+            if (response.data.role === 'admin') {
+                navigate('/admin-dashboard');
+            } else {
+                navigate('/dashboard'); 
+            }
             
         } catch (error) {
             alert("Login වෙන්න බැහැ: " + (error.response?.data || "Error"));
@@ -25,7 +35,6 @@ function Login() {
 
     return (
         <div style={{ maxWidth: '400px', margin: '40px auto' }}>
-            {/* Glass effect එක පාවිච්චි කිරීම */}
             <div className="glass-container" style={{ textAlign: 'center' }}>
                 <h2 style={{ marginBottom: '30px', fontWeight: '400' }}>Welcome Back</h2>
                 

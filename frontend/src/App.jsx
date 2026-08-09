@@ -3,7 +3,8 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Login from './Login';
 import Register from './Register';
 import Dashboard from './Dashboard';
-import CreateRequest from './CreateRequest'; // අලුත් පිටුව Import කළා
+import CreateRequest from './CreateRequest';
+import AdminDashboard from './AdminDashboard'; // අලුත් පිටුව
 import './App.css'; 
 
 function App() {
@@ -18,7 +19,8 @@ function App() {
           <Route path="/" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/create-request" element={<CreateRequest />} /> {/* අලුත් Route එක */}
+          <Route path="/create-request" element={<CreateRequest />} />
+          <Route path="/admin-dashboard" element={<AdminDashboard />} /> {/* Admin Route එක */}
         </Routes>
       </div>
     </BrowserRouter>
