@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 
 function Login() {
@@ -7,42 +7,39 @@ function Login() {
 
     const handleLogin = async (e) => {
         e.preventDefault();
+        
         try {
-            // සංජනාගේ backend එකට නම සහ මුරපදය යවනවා
             const response = await axios.post('http://localhost:5000/login', {
                 name: name,
                 password: password
             });
-            
-            alert(response.data); // සාර්ථක නම් "සාර්ථකව Login වුණා!" කියලා එයි
+            alert(response.data); // Shows success message
         } catch (error) {
-            alert("Login වෙන්න බැහැ: " + error.response.data);
+            console.error(error);
+            // Shows the specific error message from the backend (e.g., "Password incorrect")
+            alert(error.response ? error.response.data : "Login failed!");
         }
     };
 
     return (
-        <div style={{ padding: '50px', textAlign: 'center' }}>
-            <h2>Waste Management - Login</h2>
+        <div style={{ border: '1px solid #ccc', padding: '20px', borderRadius: '8px' }}>
+            <h2>Login</h2>
             <form onSubmit={handleLogin}>
-                <div style={{ marginBottom: '10px' }}>
-                    <label>Name: </label>
-                    <input 
-                        type="text" 
-                        value={name} 
-                        onChange={(e) => setName(e.target.value)} 
-                        required 
-                    />
-                </div>
-                <div style={{ marginBottom: '10px' }}>
-                    <label>Password: </label>
-                    <input 
-                        type="password" 
-                        value={password} 
-                        onChange={(e) => setPassword(e.target.value)} 
-                        required 
-                    />
-                </div>
-                <button type="submit" style={{ padding: '5px 15px' }}>Login</button>
+                <input 
+                    type="text" 
+                    placeholder="Name" 
+                    onChange={(e) => setName(e.target.value)} 
+                    required 
+                    style={{ marginBottom: '10px', padding: '8px', width: '200px' }}
+                /><br />
+                <input 
+                    type="password" 
+                    placeholder="Password" 
+                    onChange={(e) => setPassword(e.target.value)} 
+                    required 
+                    style={{ marginBottom: '10px', padding: '8px', width: '200px' }}
+                /><br />
+                <button type="submit" style={{ padding: '8px 15px', cursor: 'pointer' }}>Login</button>
             </form>
         </div>
     );

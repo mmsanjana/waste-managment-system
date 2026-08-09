@@ -1,17 +1,17 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
 import './App.css'
 import Login from './Login'
+import Register from './Register'
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-     <Login />
-    </>
+    <div style={{ padding: '20px', fontFamily: 'sans-serif' }}>
+      <h1>Waste Management System</h1>
+      <div style={{ display: 'flex', gap: '50px' }}>
+        <Register />
+        <Login />
+      </div>
+    </div>
   )
 }
 
