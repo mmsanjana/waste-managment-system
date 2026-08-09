@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
-const mysql = require('mysql2'); 
-const bcrypt = require('bcrypt'); 
+const mysql = require('mysql2');
+const bcrypt = require('bcrypt');
 
 const app = express();
 const PORT = 5000;
@@ -9,68 +9,83 @@ const PORT = 5000;
 app.use(cors());
 app.use(express.json());
 
-// Database Connection
 const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
-    password: '', 
+    password: '',
     database: 'waste_management'
 });
 
 db.connect((err) => {
     if (err) {
-        console.log('Database cant connect:', err);
+        console.log('Database එකට සම්බන්ධ වෙන්න බැහැ:', err);
     } else {
-        console.log('Database is connected!');
+        console.log('Database එකට සාර්ථකව සම්බන්ධ වුණා!');
     }
 });
 
-app.get('/', (req, res) => {
-    res.send('Waste Management System Backend work successfully!');
-});
-
-// Register API
+// 1. Register API
 app.post('/register', async (req, res) => {
     const { full_name, email, password } = req.body;
-    
-    // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
-
-    // Insert into database
     const sql = "INSERT INTO users (full_name, email, password_hash) VALUES (?, ?, ?)";
     
     db.query(sql, [full_name, email, hashedPassword], (err, result) => {
         if (err) {
             console.log(err);
-            res.status(500).send("System Error!");
+            res.status(500).send("System Error එකක් ආවා!");
         } else {
-            res.send("Registered Successfully!");
+            res.send("සාර්ථකව Register වුණා!");
         }
     });
 });
 
-// Login API
+// 2. Login API (වෙනස් කළා: දැන් Login වුණාම userId එකත් යවනවා)
 app.post('/login', (req, res) => {
-    // Get name and password from the frontend
     const { name, password } = req.body;
-
-    // Search for the user by full_name
     const sql = "SELECT * FROM users WHERE full_name = ?";
     
     db.query(sql, [name], async (err, results) => {
         if (err) {
             console.log(err);
-            res.status(500).send("System Error!");
+            res.status(500).send("System Error එකක් ආවා!");
         } else if (results.length > 0) {
-            // User found, compare passwords
             const match = await bcrypt.compare(password, results[0].password_hash);
             if (match) {
-                res.send("Logged in Successfully!");
+                // සාර්ථක වුණාම userId එක JSON විදිහට යවනවා
+                res.json({ message: "සාර්ථකව Login වුණා!", userId: results[0].user_id });
             } else {
-                res.status(401).send("Incorrect Password!");
+                res.status(401).send("Password එක වැරදියි!");
             }
         } else {
-            res.status(404).send("User not found with this name!");
+            res.status(404).send("මේ නමින් User කෙනෙක් නැහැ!");
+        }
+    });
+});
+
+// 3. Waste Types ලබාගැනීමේ API
+app.get('/waste-types', (req, res) => {
+    const sql = "SELECT * FROM waste_types";
+    db.query(sql, (err, results) => {
+        if (err) {
+            res.status(500).send("Error");
+        } else {
+            res.json(results);
+        }
+    });
+});
+
+// 4. අලුත් Pickup Request එකක් සේව් කිරීමේ API
+app.post('/pickup-requests', (req, res) => {
+    const { user_id, waste_type_id, estimated_weight, pickup_address, preferred_date } = req.body;
+    const sql = "INSERT INTO pickup_requests (user_id, waste_type_id, estimated_weight, pickup_address, preferred_date) VALUES (?, ?, ?, ?, ?)";
+    
+    db.query(sql, [user_id, waste_type_id, estimated_weight, pickup_address, preferred_date], (err, result) => {
+        if (err) {
+            console.log(err);
+            res.status(500).send("Error creating request");
+        } else {
+            res.send("Pickup Request එක සාර්ථකව යැව්වා!");
         }
     });
 });
