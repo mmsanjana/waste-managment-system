@@ -1,6 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 
-/* සම්පූර්ණ පිටුවේ පසුබිම (Modern Dark Eco Theme) */
 body {
     margin: 0;
     padding: 0;
@@ -12,7 +11,6 @@ body {
     flex-direction: column;
 }
 
-/* වීදුරු වගේ පෙනෙන කොටුව (Glass Effect) */
 .glass-container {
     background: rgba(255, 255, 255, 0.05);
     backdrop-filter: blur(15px);
@@ -21,10 +19,9 @@ body {
     box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
     border-radius: 15px;
     padding: 40px;
-    animation: slideUp 0.6s ease-out forwards; /* ලස්සනට උඩට එන Animation එක */
+    animation: slideUp 0.6s ease-out forwards;
 }
 
-/* දත්ත ඇතුලත් කරන කොටු (Input Fields) */
 .input-field {
     background: rgba(255, 255, 255, 0.07);
     border: 1px solid rgba(255, 255, 255, 0.2);
@@ -39,12 +36,11 @@ body {
 }
 
 .input-field:focus {
-    border-color: #2ecc71; /* Focus කරාම කොළ පාට වෙනවා */
+    border-color: #2ecc71;
     background: rgba(255, 255, 255, 0.15);
     box-shadow: 0 0 10px rgba(46, 204, 113, 0.2);
 }
 
-/* ප්‍රධාන බොත්තම (Primary Button) */
 .btn-primary {
     background: #27ae60;
     color: white;
@@ -65,7 +61,6 @@ body {
     transform: translateY(-2px);
 }
 
-/* සාමාන්‍ය බොත්තම (Outline Button) */
 .btn-outline {
     background: transparent;
     border: 1px solid rgba(255, 255, 255, 0.5);
@@ -82,14 +77,42 @@ body {
     border-color: white;
 }
 
-/* ලස්සනට පේන්න හදපු Animation එක */
+/* අලුතින් එකතු කරපු Table Styles */
+.custom-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.custom-table th, .custom-table td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.custom-table th {
+    background: rgba(255, 255, 255, 0.08);
+    font-weight: 600;
+    color: #2ecc71;
+}
+
+.custom-table tr:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.status-badge {
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    background: #f1c40f; /* Pending වලට කහ පාට */
+    color: #000;
+}
+
 @keyframes slideUp {
-    from {
-        opacity: 0;
-        transform: translateY(40px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(40px); }
+    to { opacity: 1; transform: translateY(0); }
 }
