@@ -5,30 +5,29 @@ function Dashboard() {
     const navigate = useNavigate();
 
     const handleLogout = () => {
-        // Logout වෙද්දී ආපහු Login පිටුවට යවනවා
+        localStorage.removeItem('userId'); // Logout වෙද්දී මතක තියාගත්ත ID එක මකනවා
         navigate('/');
     };
 
     return (
-        <div style={{ padding: '50px', maxWidth: '800px', margin: '0 auto' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '2px solid #ccc', paddingBottom: '20px', marginBottom: '30px' }}>
-                <h2>User Dashboard</h2>
-                <button 
-                    onClick={handleLogout}
-                    style={{ padding: '8px 15px', backgroundColor: '#ff4d4d', color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer' }}>
-                    Logout
-                </button>
-            </div>
-
-            <div style={{ textAlign: 'center', padding: '40px', backgroundColor: '#2c3e50', borderRadius: '10px', color: 'white' }}>
-                <h3>Welcome to Waste Management System</h3>
-                <p>You have successfully logged in!</p>
-                
-                <div style={{ marginTop: '30px' }}>
-                    {/* අපි ඊළඟට හදන්න යන Pickup Request එකට අදාල බොත්තම */}
-                    <button style={{ padding: '15px 30px', fontSize: '16px', backgroundColor: '#27ae60', color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer' }}>
-                        + Create New Pickup Request
+        <div style={{ maxWidth: '900px', margin: '40px auto' }}>
+            <div className="glass-container">
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '20px', marginBottom: '30px' }}>
+                    <h2 style={{ margin: 0, fontWeight: '400' }}>User Dashboard</h2>
+                    <button onClick={handleLogout} className="btn-outline" style={{ borderColor: '#ff4d4d', color: '#ff4d4d' }}>
+                        Logout
                     </button>
+                </div>
+
+                <div style={{ textAlign: 'center', padding: '30px 0' }}>
+                    <h3 style={{ fontSize: '24px', fontWeight: '300', marginBottom: '10px' }}>Welcome to Your Portal</h3>
+                    <p style={{ color: '#ccc', marginBottom: '40px' }}>Manage your waste pickup requests easily from here.</p>
+                    
+                    <div style={{ maxWidth: '300px', margin: '0 auto' }}>
+                        <button className="btn-primary" style={{ padding: '15px', fontSize: '18px', boxShadow: '0 10px 20px rgba(39, 174, 96, 0.3)' }}>
+                            + Create New Pickup Request
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
